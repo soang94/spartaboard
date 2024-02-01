@@ -2,7 +2,9 @@ package org.example.spartaboard.domain.user.model
 
 import jakarta.persistence.*
 import org.example.spartaboard.common.BaseTime
+import org.example.spartaboard.common.exception.AlreadyExistException
 import org.example.spartaboard.domain.user.dto.UserResponse
+import org.example.spartaboard.domain.user.repository.UserRepository
 import org.example.spartaboard.domain.user.repository.UserRole
 
 @Entity
@@ -44,4 +46,14 @@ fun User.toResponse(): UserResponse {
         updatedAt = this.updatedAt,
         role = role.name,
     )
+}
+
+fun checkedEmailOrNicknameExists(email: String, nickname: String, userRepository: UserRepository) {
+    if (userRepository.existsByEmail(email)) {
+        throw AlreadyExistException(email)
+    }
+
+    if (userRepository.existsByNickname(nickname)) {
+        throw AlreadyExistException(nickname)
+    }
 }
