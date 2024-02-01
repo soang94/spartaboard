@@ -7,6 +7,7 @@ import org.example.spartaboard.domain.user.dto.UserResponse
 import org.example.spartaboard.domain.user.service.UserService
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -19,6 +20,7 @@ class UserController(
 ) {
 
     @Operation(summary = "회원 전체 조회")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MEMBER')")
     @GetMapping("/users")
     fun getUserList(): ResponseEntity<List<UserResponse>> {
         return ResponseEntity
@@ -26,7 +28,8 @@ class UserController(
             .body(userService.getUserList())
     }
 
-    @Operation(summary = "회원 단건 조회")
+    @Operation(summary = "회원 단건 조회 / 프로필")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MEMBER')")
     @GetMapping("/users/{userId}")
     fun getUser(
         @PathVariable userId: Long
