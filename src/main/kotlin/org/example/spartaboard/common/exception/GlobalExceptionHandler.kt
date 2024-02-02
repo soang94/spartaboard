@@ -23,8 +23,8 @@ class GlobalExceptionHandler {
             .body(ErrorResponse(e.message))
     }
 
-    @ExceptionHandler(WrongPasswordException::class)
-    fun handleWrongPasswordException(e: WrongPasswordException): ResponseEntity<ErrorResponse> {
+    @ExceptionHandler(WrongEmailOrPasswordException::class)
+    fun handleWrongEmailOrPasswordException(e: WrongEmailOrPasswordException): ResponseEntity<ErrorResponse> {
         return ResponseEntity
             .status(HttpStatus.NOT_FOUND)
             .body(ErrorResponse(e.message))

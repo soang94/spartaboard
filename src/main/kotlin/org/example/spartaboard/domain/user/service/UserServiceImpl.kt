@@ -2,7 +2,7 @@ package org.example.spartaboard.domain.user.service
 
 import org.example.spartaboard.common.exception.InvalidRoleException
 import org.example.spartaboard.common.exception.ModelNotFoundException
-import org.example.spartaboard.common.exception.WrongPasswordException
+import org.example.spartaboard.common.exception.WrongEmailOrPasswordException
 import org.example.spartaboard.domain.user.dto.LoginRequest
 import org.example.spartaboard.domain.user.dto.LoginResponse
 import org.example.spartaboard.domain.user.dto.SignupRequest
@@ -50,13 +50,13 @@ class UserServiceImpl(
     }
 
     override fun login(request: LoginRequest): LoginResponse {
-        val user = userRepository.findByEmail(request.email) ?: throw ModelNotFoundException("User", null)
+        val user = userRepository.findByEmail(request.email) ?: throw WrongEmailOrPasswordException(request.email)
         if (user.password == request.password) {
             return LoginResponse(
                 accessToken = "로그인 성공"
             )
         } else {
-         throw WrongPasswordException(request.password)
+         throw WrongEmailOrPasswordException(request.password)
         }
     }
 

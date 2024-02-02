@@ -1,5 +1,5 @@
 package org.example.spartaboard.common.exception
 
-data class WrongPasswordException(val password: String): RuntimeException(
-    "비밀번호가 틀립니다."
+data class WrongEmailOrPasswordException(val emailOrPassword: String): RuntimeException(
+    "닉네임 또는 패스워드를 확인해 주세요"
 )
