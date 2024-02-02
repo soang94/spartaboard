@@ -8,7 +8,7 @@ interface CommentService {
 
     fun getComment(boardId: Long, commentId: Long): CommentResponse
 
-    fun createComment(boardId: Long, request: CommentRequest): CommentResponse
+    fun createComment(boardId: Long, request: CommentRequest, userId: Long): CommentResponse
 
     fun updateComment(boardId: Long, commentId: Long, userId: Long, request: CommentRequest): CommentResponse
 

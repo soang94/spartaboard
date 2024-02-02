@@ -4,6 +4,7 @@ import jakarta.persistence.*
 import org.example.spartaboard.common.BaseTime
 import org.example.spartaboard.domain.board.dto.BoardResponse
 import org.example.spartaboard.domain.board.dto.UpdateBoardRequest
+import org.example.spartaboard.domain.comment.model.Comment
 import org.example.spartaboard.domain.user.model.User
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
@@ -12,7 +13,7 @@ import org.hibernate.annotations.OnDeleteAction
 @Table(name = "board")
 class Board(
     @Column(name = "nickname")
-    val nickname: String,
+    var nickname: String,
 
     @Column(name = "title")
     var title: String,
@@ -23,7 +24,11 @@ class Board(
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "user_id")
-    val user: User
+    var user: User,
+
+    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = [CascadeType.ALL], orphanRemoval = true)
+    var comments: MutableList<Comment> = mutableListOf(),
+
 ): BaseTime() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +37,14 @@ class Board(
     fun toUpdate(request: UpdateBoardRequest) {
         title = request.title
         content = request.content
+    }
+
+    fun addComment(comment: Comment) {
+        comments.add(comment)
+    }
+
+    fun removeComment(comment: Comment) {
+        comments.remove(comment)
     }
 }
 

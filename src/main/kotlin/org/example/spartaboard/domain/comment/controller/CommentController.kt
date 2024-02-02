@@ -50,11 +50,13 @@ class CommentController(
     @PostMapping
     fun createComment(
         @PathVariable boardId: Long,
-        @RequestBody commentRequest: CommentRequest
+        @RequestBody commentRequest: CommentRequest,
+        @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<CommentResponse> {
+        val userId = userPrincipal.id
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(commentService.createComment(boardId, commentRequest))
+            .body(commentService.createComment(boardId, commentRequest, userId))
     }
 
     @Operation(summary = "댓글 수정")
