@@ -3,9 +3,11 @@ package org.example.spartaboard.domain.user.model
 import jakarta.persistence.*
 import org.example.spartaboard.common.BaseTime
 import org.example.spartaboard.common.exception.AlreadyExistException
+import org.example.spartaboard.common.exception.WrongEmailOrPasswordException
 import org.example.spartaboard.domain.user.dto.UserResponse
 import org.example.spartaboard.domain.user.repository.UserRepository
 import org.example.spartaboard.domain.user.repository.UserRole
+import org.springframework.security.crypto.password.PasswordEncoder
 
 @Entity
 @Table(name = "app_user")
@@ -55,5 +57,11 @@ fun checkedEmailOrNicknameExists(email: String, nickname: String, userRepository
 
     if (userRepository.existsByNickname(nickname)) {
         throw AlreadyExistException(nickname)
+    }
+}
+
+fun checkedLoginPassword(password: String, inputPassword: String, passwordEncoder: PasswordEncoder) {
+    if(!passwordEncoder.matches(inputPassword, password)) {
+        throw WrongEmailOrPasswordException(inputPassword)
     }
 }
