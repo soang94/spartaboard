@@ -11,6 +11,7 @@ import org.example.spartaboard.domain.board.repository.BoardRepository
 import org.example.spartaboard.domain.user.repository.UserRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class BoardServiceImpl(
@@ -26,6 +27,7 @@ class BoardServiceImpl(
         return board.toResponse()
     }
 
+    @Transactional
     override fun createBoard(request: CreateBoardRequest, userId: Long): BoardResponse {
         val user = userRepository.findByIdOrNull(userId) ?: throw ModelNotFoundException("User", userId)
         return boardRepository.save(
@@ -38,6 +40,7 @@ class BoardServiceImpl(
         ).toResponse()
     }
 
+    @Transactional
     override fun updateBoard(boardId: Long, request: UpdateBoardRequest, userId: Long): BoardResponse {
         val board = boardRepository.findByIdOrNull(boardId) ?: throw ModelNotFoundException("Board", boardId)
         if (board.user.id == userId) {
@@ -48,6 +51,7 @@ class BoardServiceImpl(
         return board.toResponse()
     }
 
+    @Transactional
     override fun delete(boardId: Long, userId: Long) {
         val board = boardRepository.findByIdOrNull(boardId) ?: throw ModelNotFoundException("Board", boardId)
         if (board.user.id == userId) {

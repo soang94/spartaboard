@@ -54,6 +54,7 @@ class UserServiceImpl(
         ).toResponse()
     }
 
+    @Transactional
     override fun login(request: LoginRequest): LoginResponse {
         val user = userRepository.findByEmail(request.email) ?: throw WrongEmailOrPasswordException(request.email)
         checkedLoginPassword(user.password, request.password, passwordEncoder)
