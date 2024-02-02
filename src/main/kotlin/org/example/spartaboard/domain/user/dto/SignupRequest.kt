@@ -3,7 +3,6 @@ package org.example.spartaboard.domain.user.dto
 import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
-import java.time.LocalDateTime
 
 data class SignupRequest(
     @field: NotBlank
