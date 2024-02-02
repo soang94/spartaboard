@@ -47,11 +47,13 @@ class BoardController(
     @PreAuthorize("hasRole('MEMBER') or hasRole('ADMIN')")
     @PostMapping
     fun createBoard(
-        @RequestBody createBoardRequest: CreateBoardRequest
+        @RequestBody createBoardRequest: CreateBoardRequest,
+        @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<BoardResponse> {
+        val userId = userPrincipal.id
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(boardService.createBoard(createBoardRequest))
+            .body(boardService.createBoard(createBoardRequest, userId))
     }
 
     @Operation(summary = "게시물 수정")

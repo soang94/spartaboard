@@ -9,7 +9,7 @@ interface BoardService {
 
     fun getBoard(boardId: Long): BoardResponse
 
-    fun createBoard(request: CreateBoardRequest): BoardResponse
+    fun createBoard(request: CreateBoardRequest, userId: Long): BoardResponse
 
     fun updateBoard(boardId: Long ,request: UpdateBoardRequest, userId: Long): BoardResponse
 
