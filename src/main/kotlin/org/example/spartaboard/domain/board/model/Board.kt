@@ -5,6 +5,7 @@ import org.example.spartaboard.common.BaseTime
 import org.example.spartaboard.domain.board.dto.BoardResponse
 import org.example.spartaboard.domain.board.dto.UpdateBoardRequest
 import org.example.spartaboard.domain.comment.model.Comment
+import org.example.spartaboard.domain.comment.model.toResponse
 import org.example.spartaboard.domain.user.model.User
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
@@ -55,7 +56,7 @@ fun Board.toResponse(): BoardResponse {
         title = title,
         content = content,
         createdAt = this.createdAt,
-        updatedAt = this.updatedAt
-
+        updatedAt = this.updatedAt,
+        comment = comments.map { it.toResponse() }
     )
 }

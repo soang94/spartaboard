@@ -9,6 +9,9 @@ import org.example.spartaboard.domain.comment.model.Comment
 import org.example.spartaboard.domain.comment.model.toResponse
 import org.example.spartaboard.domain.comment.repository.CommentRepository
 import org.example.spartaboard.domain.user.repository.UserRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -19,10 +22,15 @@ class CommentServiceImpl(
     private val boardRepository: BoardRepository,
     private val userRepository: UserRepository
 ): CommentService {
-    override fun getCommentList(boardId: Long): List<CommentResponse> {
+    override fun getCommentList(boardId: Long, pageable: Pageable): Page<CommentResponse> {
         val board = boardRepository.findByIdOrNull(boardId) ?: throw ModelNotFoundException("Board", boardId)
 
-        return board.comments.map { it.toResponse() }
+        val comments = board.comments.map { it.toResponse() }
+        val startIndex = pageable.offset.toInt()
+        val endIndex = (startIndex + pageable.pageSize).coerceAtMost(comments.size)
+        val pageComments = comments.subList(startIndex, endIndex)
+
+        return PageImpl(pageComments, pageable, comments.size.toLong())
     }
 
     override fun getComment(boardId: Long, commentId: Long): CommentResponse {
