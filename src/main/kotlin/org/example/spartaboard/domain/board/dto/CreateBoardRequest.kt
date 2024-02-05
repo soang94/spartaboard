@@ -1,5 +1,6 @@
 package org.example.spartaboard.domain.board.dto
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.Pattern
 
@@ -9,6 +10,7 @@ data class CreateBoardRequest(
         regexp = "^(.{1,500})$",
         message = "최소 1글자부터 최대 500자까지만 입력해주세요."
     )
+    @JsonProperty("title")
     private val _title: String?,
 
     @field: NotBlank
@@ -16,6 +18,7 @@ data class CreateBoardRequest(
         regexp = "^(.{1,5000})$",
         message = "최소 1글자부터 최대 5000자까지만 입력입력해주세요."
     )
+    @JsonProperty("content")
     private val _content: String?,
 ) {
     val title: String

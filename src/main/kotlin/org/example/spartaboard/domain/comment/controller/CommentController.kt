@@ -74,6 +74,7 @@ class CommentController(
     }
 
     @Operation(summary = "댓글 삭제")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('MEMBER')")
     @DeleteMapping("/{commentId}")
     fun deleteComment(
         @PathVariable boardId: Long,

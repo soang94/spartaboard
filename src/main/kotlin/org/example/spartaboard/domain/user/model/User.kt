@@ -3,7 +3,9 @@ package org.example.spartaboard.domain.user.model
 import jakarta.persistence.*
 import org.example.spartaboard.common.BaseTime
 import org.example.spartaboard.common.exception.AlreadyExistException
+import org.example.spartaboard.common.exception.PasswordMismatchException
 import org.example.spartaboard.common.exception.WrongEmailOrPasswordException
+import org.example.spartaboard.domain.user.dto.SignupRequest
 import org.example.spartaboard.domain.user.dto.UserResponse
 import org.example.spartaboard.domain.user.repository.UserRepository
 import org.example.spartaboard.domain.user.repository.UserRole
@@ -63,5 +65,11 @@ fun checkedEmailOrNicknameExists(email: String, nickname: String, userRepository
 fun checkedLoginPassword(password: String, inputPassword: String, passwordEncoder: PasswordEncoder) {
     if(!passwordEncoder.matches(inputPassword, password)) {
         throw WrongEmailOrPasswordException(inputPassword)
+    }
+}
+
+fun checkedSignupPassword(password: String, confirmPassword: String) {
+    if (password != confirmPassword) {
+        throw PasswordMismatchException(confirmPassword)
     }
 }

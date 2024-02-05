@@ -1,6 +1,7 @@
 package org.example.spartaboard.domain.user.controller
 
 import io.swagger.v3.oas.annotations.Operation
+import jakarta.validation.Valid
 import org.example.spartaboard.domain.user.dto.LoginRequest
 import org.example.spartaboard.domain.user.dto.SignupRequest
 import org.example.spartaboard.domain.user.dto.UserResponse
@@ -40,9 +41,9 @@ class UserController(
     }
 
     @Operation(summary = "회원가입")
-    @PostMapping(name = "/signup")
+    @PostMapping("/signup")
     fun signup(
-        @RequestBody signupRequest: SignupRequest
+      @Valid @RequestBody signupRequest: SignupRequest
     ): ResponseEntity<UserResponse> {
         return ResponseEntity
             .status(HttpStatus.CREATED)

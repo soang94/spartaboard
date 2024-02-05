@@ -9,6 +9,8 @@ import org.example.spartaboard.domain.board.model.Board
 import org.example.spartaboard.domain.board.model.toResponse
 import org.example.spartaboard.domain.board.repository.BoardRepository
 import org.example.spartaboard.domain.user.repository.UserRepository
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -18,8 +20,8 @@ class BoardServiceImpl(
     private val boardRepository: BoardRepository,
     private val userRepository: UserRepository
 ): BoardService {
-    override fun getBoardList(): List<BoardResponse> {
-        return boardRepository.findAll().map { it.toResponse() }
+    override fun getBoardList(pageable: Pageable): Page<BoardResponse> {
+        return boardRepository.findAll(pageable).map { it.toResponse() }
     }
 
     override fun getBoard(boardId: Long): BoardResponse {
