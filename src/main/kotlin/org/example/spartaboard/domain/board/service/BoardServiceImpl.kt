@@ -2,6 +2,7 @@ package org.example.spartaboard.domain.board.service
 
 import org.example.spartaboard.common.exception.ModelNotFoundException
 import org.example.spartaboard.common.exception.UnAuthorizedAccessException
+import org.example.spartaboard.common.redis.BoardRedisRepository
 import org.example.spartaboard.domain.board.dto.BoardResponse
 import org.example.spartaboard.domain.board.dto.CreateBoardRequest
 import org.example.spartaboard.domain.board.dto.UpdateBoardRequest
@@ -18,7 +19,8 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class BoardServiceImpl(
     private val boardRepository: BoardRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val boardRedisRepository: BoardRedisRepository
 ): BoardService {
     override fun getBoardList(pageable: Pageable): Page<BoardResponse> {
         return boardRepository.findAll(pageable).map { it.toResponse() }
@@ -60,6 +62,14 @@ class BoardServiceImpl(
             boardRepository.delete(board)
         } else {
             throw UnAuthorizedAccessException(userId)
+        }
+    }
+
+    override fun getRecentBoards(userId: Long): List<BoardResponse> {
+        val recentBoards = boardRedisRepository.getRecentPosts(userId)
+        return recentBoards.mapNotNull { boardId ->
+            val board = boardRepository.findByIdOrNull(boardId.toLong())
+            board?.toResponse()
         }
     }
 

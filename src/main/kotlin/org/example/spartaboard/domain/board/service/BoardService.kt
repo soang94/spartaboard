@@ -16,4 +16,6 @@ interface BoardService {
     fun updateBoard(boardId: Long ,request: UpdateBoardRequest, userId: Long): BoardResponse
 
     fun delete(boardId: Long, userId: Long)
+
+    fun getRecentBoards(userId: Long): List<BoardResponse>
 }
