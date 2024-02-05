@@ -5,6 +5,10 @@ import org.example.spartaboard.common.security.jwt.UserPrincipal
 import org.example.spartaboard.domain.comment.dto.CommentRequest
 import org.example.spartaboard.domain.comment.dto.CommentResponse
 import org.example.spartaboard.domain.comment.service.CommentService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -27,11 +31,13 @@ class CommentController(
     @Operation(summary = "댓글 목록")
     @GetMapping
     fun getCommentList(
+        @PageableDefault(size = 5, sort = ["createdAt"], direction = Sort.Direction.DESC)
+        pageable: Pageable,
         @PathVariable boardId: Long
-    ): ResponseEntity<List<CommentResponse>> {
+    ): ResponseEntity<Page<CommentResponse>> {
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(commentService.getCommentList(boardId))
+            .body(commentService.getCommentList(boardId, pageable))
     }
 
     @Operation(summary = "댓글 단건")

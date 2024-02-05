@@ -1,5 +1,6 @@
 package org.example.spartaboard.domain.board.dto
 
+import org.example.spartaboard.domain.comment.dto.CommentResponse
 import java.time.LocalDateTime
 
 data class BoardResponse(
@@ -9,4 +10,5 @@ data class BoardResponse(
     val content: String,
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime,
+    val comment: List<CommentResponse>
 )
