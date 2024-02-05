@@ -2,16 +2,14 @@ package org.example.spartaboard.domain.user.service
 
 import org.example.spartaboard.common.exception.InvalidRoleException
 import org.example.spartaboard.common.exception.ModelNotFoundException
+import org.example.spartaboard.common.exception.PasswordMismatchException
 import org.example.spartaboard.common.exception.WrongEmailOrPasswordException
 import org.example.spartaboard.common.security.jwt.JwtPlugin
 import org.example.spartaboard.domain.user.dto.LoginRequest
 import org.example.spartaboard.domain.user.dto.LoginResponse
 import org.example.spartaboard.domain.user.dto.SignupRequest
 import org.example.spartaboard.domain.user.dto.UserResponse
-import org.example.spartaboard.domain.user.model.User
-import org.example.spartaboard.domain.user.model.checkedEmailOrNicknameExists
-import org.example.spartaboard.domain.user.model.checkedLoginPassword
-import org.example.spartaboard.domain.user.model.toResponse
+import org.example.spartaboard.domain.user.model.*
 import org.example.spartaboard.domain.user.repository.UserRepository
 import org.example.spartaboard.domain.user.repository.UserRole
 import org.springframework.data.repository.findByIdOrNull
@@ -34,9 +32,9 @@ class UserServiceImpl(
         return user.toResponse()
     }
 
-    @Transactional
     override fun signup(request: SignupRequest): UserResponse {
         checkedEmailOrNicknameExists(request.email, request.nickname, userRepository)
+        checkedSignupPassword(request.password, request.reconfirmPassword)
 
         return userRepository.save(
             User(
