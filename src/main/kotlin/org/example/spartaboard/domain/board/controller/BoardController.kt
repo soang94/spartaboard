@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -30,6 +31,18 @@ class BoardController(
     private val boardService: BoardService
 ) {
 
+    // querydsl
+    @GetMapping("/search")
+    fun searchBoardList(
+        @RequestParam(value = "title") title: String
+    ): ResponseEntity<List<BoardResponse>> {
+        return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(boardService.searchBoardList(title))
+    }
+
+
+    // 일반 crud
     @Operation(summary = "게시물 전체 리스트")
     @GetMapping
     fun getBoardList(
