@@ -8,7 +8,6 @@ import org.example.spartaboard.domain.board.dto.UpdateBoardRequest
 import org.example.spartaboard.domain.board.model.Board
 import org.example.spartaboard.domain.board.model.toResponse
 import org.example.spartaboard.domain.board.repository.BoardRepository
-import org.example.spartaboard.domain.board.repository.BoardRepositoryImpl
 import org.example.spartaboard.domain.user.repository.UserRepository
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
