@@ -71,10 +71,9 @@ class BoardController(
        @Valid @RequestBody createBoardRequest: CreateBoardRequest,
         @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<BoardResponse> {
-        val userId = userPrincipal.id
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(boardService.createBoard(createBoardRequest, userId))
+            .body(boardService.createBoard(createBoardRequest, userPrincipal.id))
     }
 
     @Operation(summary = "게시물 수정")
@@ -84,10 +83,9 @@ class BoardController(
         @RequestBody updateBoardRequest: UpdateBoardRequest,
         @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<BoardResponse> {
-        val userId = userPrincipal.id
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(boardService.updateBoard(boardId ,updateBoardRequest, userId))
+            .body(boardService.updateBoard(boardId ,updateBoardRequest, userPrincipal.id))
     }
 
     @Operation(summary = "게시물 삭제")
@@ -97,8 +95,7 @@ class BoardController(
         @PathVariable boardId: Long,
         @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<Any> {
-        val userId = userPrincipal.id
-        boardService.delete(boardId, userId)
+        boardService.delete(boardId, userPrincipal.id)
         return ResponseEntity
             .status(HttpStatus.OK)
             .body("해당 게시물이 삭제되었습니다.")

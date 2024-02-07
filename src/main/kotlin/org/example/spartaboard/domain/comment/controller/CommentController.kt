@@ -59,10 +59,9 @@ class CommentController(
         @RequestBody commentRequest: CommentRequest,
         @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<CommentResponse> {
-        val userId = userPrincipal.id
         return ResponseEntity
             .status(HttpStatus.CREATED)
-            .body(commentService.createComment(boardId, commentRequest, userId))
+            .body(commentService.createComment(boardId, commentRequest, userPrincipal.id))
     }
 
     @Operation(summary = "댓글 수정")
@@ -73,10 +72,9 @@ class CommentController(
         @RequestBody commentRequest: CommentRequest,
         @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<CommentResponse> {
-        val userId = userPrincipal.id
         return ResponseEntity
             .status(HttpStatus.OK)
-            .body(commentService.updateComment(boardId, commentId, userId, commentRequest))
+            .body(commentService.updateComment(boardId, commentId, userPrincipal.id, commentRequest))
     }
 
     @Operation(summary = "댓글 삭제")
@@ -87,8 +85,7 @@ class CommentController(
         @PathVariable commentId: Long,
         @AuthenticationPrincipal userPrincipal: UserPrincipal
     ): ResponseEntity<Any> {
-        val userId = userPrincipal.id
-        commentService.deleteComment(boardId, commentId, userId)
+        commentService.deleteComment(boardId, commentId, userPrincipal.id)
         return ResponseEntity
             .status(HttpStatus.OK)
             .body("해당 댓글을 삭제했습니다.")
