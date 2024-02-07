@@ -40,10 +40,6 @@ class Board(
         content = request.content
     }
 
-    fun addComment(comment: Comment) {
-        comments.add(comment)
-    }
-
     fun removeComment(comment: Comment) {
         comments.remove(comment)
     }

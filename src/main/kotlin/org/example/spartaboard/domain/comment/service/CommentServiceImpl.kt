@@ -52,16 +52,6 @@ class CommentServiceImpl(
                 board = board
             )
         ).toResponse()
-//        val comment = Comment(
-//            nickname = user.nickname,
-//            content = request.content,
-//            user = user,
-//            board = board
-//        )
-//        board.addComment(comment)
-//        boardRepository.save(board)
-//
-//        return comment.toResponse()
     }
 
     @Transactional
