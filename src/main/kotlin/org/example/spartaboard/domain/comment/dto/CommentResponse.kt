@@ -9,3 +9,6 @@ data class CommentResponse(
     val createdAt: LocalDateTime,
     val updatedAt: LocalDateTime
 )
+//{
+//    constructor() : this(0, "", "", LocalDateTime.now(), LocalDateTime.now())
+//}

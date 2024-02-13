@@ -12,3 +12,6 @@ data class BoardResponse(
     val updatedAt: LocalDateTime,
     val comment: List<CommentResponse>
 )
+//{
+//    constructor() : this(0, "", "", "", LocalDateTime.now(), LocalDateTime.now(), mutableListOf())
+//}
